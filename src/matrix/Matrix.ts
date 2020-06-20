@@ -25,8 +25,8 @@ export default class Matrix {
     }
 
     private initializeTable() {
-        const addColumnButton = this._controlsBuilder.createAddColumnButton();
-        const addRowButton = this._controlsBuilder.createAddRowButton();
+        const addColumnButton = this._controlsBuilder.createAddButton('add-column');
+        const addRowButton = this._controlsBuilder.createAddButton('add-row');
 
         addColumnButton.addEventListener('click', this.addColumn);
         addRowButton.addEventListener('click', this.addRow);

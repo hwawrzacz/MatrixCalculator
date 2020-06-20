@@ -12,21 +12,11 @@ export default class ControlsBuilder {
         return button;
     }
 
-    public createAddColumnButton(): Element {
+    public createAddButton(className: string): Element {
         let button = document.createElement('button');
         let icon = this.createButtonIcon();
 
-        button.classList.add('add-column');
-        button.appendChild(icon);
-
-        return button;
-    }
-
-    public createRemoveRowButton(): Element {
-        let button = document.createElement('button');
-        let icon = this.createButtonIcon();
-
-        button.classList.add('remove-row')
+        button.classList.add(className);
         button.appendChild(icon);
 
         return button;
