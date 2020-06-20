@@ -1,32 +1,38 @@
 import MatrixControls from "./MatrixControls";
-import ElementBuilder from "./builders/ElementBuilder";
-import ControlsBuilder from "./builders/ControlsBuilder";
+import ElementBuilder from "../builders/ElementBuilder";
+import ControlsBuilder from "../builders/ControlsBuilder";
 
 export default class Matrix {
     private _tableWrapper: Element;
     private _DOMTable: Element;
-    private rows: number;
-    private cols: number;
+    private _rows: number;
+    private _cols: number;
     private _matrixControls: MatrixControls;
     private _controlsBuilder: ControlsBuilder;
     private _elementBuilder: ElementBuilder;
 
     constructor(rows: number, cols: number) {
-        this.rows = rows;
-        this.cols = cols;
+        this._rows = rows;
+        this._cols = cols;
         this._controlsBuilder = new ControlsBuilder();
         this._elementBuilder = new ElementBuilder();
 
         this.initializeTable();
-        document.body.appendChild(this._tableWrapper);
+    }
+
+    public getMatrixWrapper(): Element {
+        return this._tableWrapper;
     }
 
     private initializeTable() {
         const addColumnButton = this._controlsBuilder.createAddColumnButton();
         const addRowButton = this._controlsBuilder.createAddRowButton();
 
+        addColumnButton.addEventListener('click', this.addColumn);
+        addRowButton.addEventListener('click', this.addRow);
+
         this._tableWrapper = this._elementBuilder.createTableWrapper();
-        this._DOMTable = this._elementBuilder.createTable(this.rows, this.cols);
+        this._DOMTable = this._elementBuilder.createTable(this._rows, this._cols);
         this._tableWrapper.appendChild(this._DOMTable);
         this._tableWrapper.appendChild(addColumnButton);
         this._tableWrapper.appendChild(addRowButton);
@@ -34,7 +40,13 @@ export default class Matrix {
         this._matrixControls = new MatrixControls(this._DOMTable);
     }
 
-    public showDetails() {
-        console.log(`${this.rows}x${this.cols}`);
+    private addColumn = () => {
+        this._cols++;
+        this._matrixControls.addColumn();
+    }
+
+    private addRow = () => {
+        this._rows++;
+        this._matrixControls.addRow(this._cols);
     }
 }

@@ -1,5 +1,5 @@
-import ControlsBuilder from "./builders/ControlsBuilder";
-import ElementBuilder from "./builders/ElementBuilder";
+import ControlsBuilder from "../builders/ControlsBuilder";
+import ElementBuilder from "../builders/ElementBuilder";
 
 export default class MatrixControls {
     private _controlsBuilder: ControlsBuilder;
@@ -8,11 +8,19 @@ export default class MatrixControls {
 
     constructor(tableElement: Element) {
         this._tableElement = tableElement;
+        this._elementBuilder = new ElementBuilder();
     }
 
-    public addRow() {
+    public addRow(columns: number) {
+        const tbody = this._tableElement.querySelector('tbody');
         const row = this._elementBuilder.createTableRow();
-        this._tableElement.appendChild(row);
+
+        for (let c = 0; c < columns; c++) {
+            const column = this._elementBuilder.createTableColumn();
+            row.appendChild(column);
+        }
+
+        tbody.appendChild(row);
     }
 
     public addColumn() {
