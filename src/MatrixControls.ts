@@ -1,51 +1,26 @@
+import ControlsBuilder from "./builders/ControlsBuilder";
+import ElementBuilder from "./builders/ElementBuilder";
+
 export default class MatrixControls {
+    private _controlsBuilder: ControlsBuilder;
+    private _elementBuilder: ElementBuilder;
+    private _tableElement: Element;
 
-    public createAddRowButton(): Element {
-        let button = document.createElement('button');
-        let icon = this.createButtonIcon();
-
-        button.classList.add('add-row');
-        button.appendChild(icon);
-
-        return button;
+    constructor(tableElement: Element) {
+        this._tableElement = tableElement;
     }
 
-    public createAddColumnButton(): Element {
-        let button = document.createElement('button');
-        let icon = this.createButtonIcon();
-
-        button.classList.add('add-column');
-        button.appendChild(icon);
-
-        return button;
+    public addRow() {
+        const row = this._elementBuilder.createTableRow();
+        this._tableElement.appendChild(row);
     }
 
-    public createRemoveRowButton(): Element {
-        let button = document.createElement('button');
-        let icon = this.createButtonIcon();
+    public addColumn() {
+        const rows = this._tableElement.querySelectorAll('tr');
 
-        button.classList.add('remove-row')
-        button.appendChild(icon);
-
-        return button;
-    }
-
-    public createRemoveColumnButton(): Element {
-        let button = document.createElement('button');
-        let icon = this.createButtonIcon();
-
-        button.classList.add('remove-column')
-        button.appendChild(icon);
-
-        return button;
-    }
-
-    private createButtonIcon(): Element {
-        let icon = document.createElement('i');
-
-        icon.classList.add('material-icons');
-        icon.innerHTML = 'add';
-
-        return icon;
+        rows.forEach(row => {
+            const column = this._elementBuilder.createTableColumn();
+            row.appendChild(column);
+        });
     }
 }
